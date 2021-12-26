@@ -1,0 +1,138 @@
+    progress {
+      width: 100%;
+    }
+    h4 {
+      margin: 0;
+    }
+    button {
+      font-size: 1em;
+    }
+    #progress {
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #8f8f9d;
+      background-color: #e9e9ed;
+      margin: 4px 0px;
+      height: .75em;
+    }
+    .center {
+      text-align:center;
+    }
+    #progress > div {
+      background-color: #0060df;
+      height: 100%
+    }
+    img {
+      height: 100px;
+    }
+    .artwork {
+      display: inline-block;
+      vertical-align:top;
+      height: 100px;
+      min-width: 100px;
+      margin: 0px auto 4px;
+      background-color: #e9e9ed;
+      box-shadow: 2px 2px 5px grey;
+    }
+    #search .album > div{
+      display: flex;
+      flex-direction: row;
+    }
+    #search .artwork {
+      margin-right: 4px;
+    }
+    .container {
+      max-width: 500px;
+      margin: 10px auto;
+    }
+    .focus {
+    }
+    .queue, #results{
+      border: 1px solid #8f8f9d;
+      margin-top: 2px;
+    }
+    li {
+      padding: 2px;
+    }
+    #time {
+      position: relative;
+    }
+    .nowplaying .title {
+      font-size: 1.2em;
+    }
+    .title{
+      font-weight: bold;
+    }
+    .label {
+      display: none
+    }
+    html {
+      font-family: sans-serif
+    }
+    #elapsed {
+      float: left;
+    }
+    #duration,.duration {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+    }
+    #duration {
+      right: 0px;
+    }
+    #nowplaying li:nth-child(even) {
+      background-color: #e9e9ed;
+    }
+    .queue, #results {
+      margin-left: 15px;
+      margin-bottom: 10px;
+    }
+    .album ul {
+      flex-grow: 1;
+    }
+    #listen {
+      margin: 5px;
+    }
+    #nowplaying .artist, #nowplaying .album {
+      display: inline-block;
+    }
+    .queue .artist span::after {
+      content: " - "
+    }
+    li {
+      position: relative;
+    }
+    ul li {
+      list-style: none;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); 
+    }
+    ol,ul {
+      padding: 0;
+      margin: 0;
+    }
+    #search input[type=text]{
+      width: 100%;
+      margin-top:5px;
+    }
+    .selected {
+      background-color: #0060df !important;
+      color:white;
+    }
+    .checkbox {
+      position: absolute;
+      left: -25px;
+    }
+    @media screen and (max-width:500px) {
+      .checkbox {
+        display:none;
+      }
+      #results {
+        margin-left: 0px !important;
+      }
+      .hide {
+        display: none;
+      }
+    }

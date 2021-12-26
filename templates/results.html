@@ -1,0 +1,32 @@
+{% for song in results %}
+{% if not loop.previtem or "title" not in song or (loop.previtem.album != song.album and loop.previtem.albumartist != song.albumartist) %}
+<div {% if song.albumartist %}id="{{song.albumartist|first}}"{% endif %} class="artist">
+  <a
+    href="?artist={{song.albumartist}}"
+    hx-swap="outerHTML"
+    hx-get="/results?artist={{song.albumartist}}"
+    hx-target="closest div.artist"
+    >{{song.albumartist}}</a>{% endif %}{% if song.album %}{% if not loop.previtem or loop.previtem.album != song.album %}
+    <div class="album">
+    <span><b>{{song.album}}</b></span> ({{song.date}})
+    <div>
+      <div class="artwork"><img src="{{ song | artwork}}"></div>
+      <div class="songs">{% endif %}
+        <div 
+          x-data="{checked: false}"
+          @click.prevent="checked = !checked"
+          :class="checked?'selected':''">
+          <label><input
+            x-model="checked"
+            x-show="false"
+            name="s"
+            type="checkbox"
+            value="{{song.file}}">
+            {{song.track}}. {{ song.title }}
+          </label>
+        </div>{% if not loop.nextitem or loop.nextitem.album != song.album %}
+      </div> <!-- Close album -->
+    </div>
+  </div>
+  <p></p>{% endif %}{% endif %}{% if not loop.nextitem or "title" not in song or (loop.nextitem.album != song.album and loop.nextitem.albumartist != song.albumartist) %}
+</div>{% endif %}{% endfor %}

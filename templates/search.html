@@ -1,0 +1,164 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <style>
+      .container {
+        padding-top: 110px;
+        max-width: 800px;
+        margin: 0px auto;
+      }
+      .center {
+        text-align: center;
+      }
+      .selected {
+        background-color: #0060df !important;
+        color:white;
+      }
+      .artwork {
+        display: inline-block;
+        vertical-align:top;
+        height: 100px;
+        min-width: 100px;
+        margin: 0px auto 4px;
+        background-color: #e9e9ed;
+        box-shadow: 2px 2px 5px grey;
+      }
+      .album > div{
+        font-size: 1.2em;
+        margin-top: 10px;
+      }
+      .album > div > div {
+        display: inline-block;
+      }
+      .album {
+        margin-bottom: 10px;
+        margin-top: 5px;
+      }
+      .album .artwork {
+        margin-right: 4px;
+      }
+      .album .artwork img {
+        height: 100px;
+      }
+      .album span {
+        font-size: 1.2em;
+      }
+      .artist > a{
+        font-size: 1.4em;
+        margin-bottom: 20px;
+      }
+      #alpha {
+        color: rgb(0, 0, 238);
+        margin: 0px auto;
+        margin-top: 5px;
+        font-size: 1.2em;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        max-width: 600px;
+      }
+      @media screen and (min-width:500px) {
+        .album {
+          margin-left: 30px;
+        }
+        .album .artwork {
+          margin-right: 8px !important;
+        }
+      }
+      #searchmenu {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        max-width: 800px;
+        margin: 0px auto;
+      }
+      .top {
+        position: fixed;
+        text-align:center;
+        top: 0px;
+        padding:10px;
+        left: 0px;
+        right: 0px;
+        background-color: white;
+      }
+      #add .top {
+        padding-top:5px !important;
+        padding-bottom: 0px !important;
+        top: 48px;
+        left: 0;
+        right: 0;
+      }
+
+      .songs * {
+        cursor: pointer;
+        user-select: none;
+        -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); 
+      }
+      .songs div:nth-child(even) {
+        background-color: #e9e9ed;
+      }
+      .songs div:hover {
+        text-decoration: underline;
+      }
+
+      #searchmenu input[type=text] {
+        flex-grow: .95;
+        margin:0px; 
+        min-width: 0;
+      }
+      #searchmenu a, input[type=submit], input[type=text] {
+        font-size: 1.4em;
+      }
+      #searchmenu input[type=submit] {
+        display: none;
+      }
+      body {
+        font-family: sans-serif;
+      }
+      .button {
+        text-decoration: none;
+        background-color: #EEEEEE;
+        color: #333333;
+        padding: 2px 6px 2px 6px;
+        border-top: 1px solid #CCCCCC;
+        border-right: 1px solid #333333;
+        border-bottom: 1px solid #333333;
+        border-left: 1px solid #CCCCCC;
+      }
+    </style>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <script src="https://unpkg.com/htmx.org@1.6.1" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="top">
+        <form id="searchmenu">
+          <a href="/" class="button">Back</a>
+          <input 
+            type="text"
+            placeholder="search"
+            name="q"
+            value="{{q}}"
+            autocomplete="off"
+            autofocus
+          >
+          <input type="submit" value="Search">
+        </form>
+      </div>
+    {% if results %}
+    <form id="add" action="/nowplaying?redirect" method="POST">
+      <div class="top center">
+        <input type="submit" value="Add selected songs">
+        <div id="alpha">{% for x in range(26) %}
+          {% if (65+x) in results|firstlist %}<a href="#{{(65+x)|chr}}" >{{(65+x)|chr}}</a>{%else%}<span>{{(65+x)|chr}}</span>{% endif %}{% endfor %}</div>
+      </div>
+      <div id="results">
+        {% include 'results.html' %}
+      </div>
+    </form>
+    {% elif q %}
+    <div>No results</div>
+    {% endif %}
+    </div>
+  </body>
+</html>

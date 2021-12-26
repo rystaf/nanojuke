@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <link rel="stylesheet" href="/main.css"/>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <script src="https://unpkg.com/htmx.org@1.6.1" defer></script>
+  </head>
+<body>
+  <div class="container" x-data="{ search: '' }">
+    <div class="center" id="listen"></div>
+    <audio id="stream" src="https://radio.nanorex.net/stream.mp3"  preload="none">
+      <p class="center"><a href="https://radio.nanorex.net/stream.mp3">https://radio.nanorex.net/stream.mp3</a></p>
+    </audio>
+    <div id="home">
+    {% include 'home.html' %}
+    </div>
+  </div>
+  <script type="text/javascript">
+    const $ = id => document.getElementById(id)
+    const loop = setInterval(()=>{
+      let elapsed = parseFloat($("elapsed").getAttribute("data-ms"))
+      let duration = parseFloat($("duration").getAttribute("data-ms"))
+      if (elapsed >= duration) return
+      elapsed += 1
+      $("elapsed").setAttribute("data-ms", elapsed)
+      $("bar").style.width = Math.floor(elapsed / duration * 100)+"%"
+      $("elapsed").innerHTML = new Date(elapsed * 1000).toISOString().substr(14, 5);
+    }, 1000)
+    var ws = new WebSocket('ws://localhost:8080/');
+    let x = false
+    ws.onmessage = () => {
+      if (x) window.location.reload();
+      x = true
+    }
+    $("listen").innerHTML = '<button id="listenbutton">Play</button>'
+    $("listenbutton").onclick = (e)=> {
+      let audio = $("stream")
+      if (!audio.paused) {
+        e.target.innerHTML = "Play"
+        audio.pause()
+        audio.src = audio.src
+        return
+      }
+      e.target.innerHTML = "Mute"
+      audio.play()
+    }
+  </script>
+</body>
+</html>
