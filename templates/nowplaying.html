@@ -1,39 +1,34 @@
-<div @load="console.log('load')" class="center nowplaying">
-  <h4 class="label">Now playing</h4>
-  <div class="artwork">
-    <img title="Album Art" src="{{ song|artwork }}">
-  </div>
-  <div class="title"><span class="label"><b>Title:</b> </span>{{ song.title }}</div>
-{% if 'duration' in status %}
-  <span class="label"><b>Artist:</b> </span>{{song.artist}}
-  <div><span class="label"><b>Album:</b></span> {{song.album}} ({{song.date}})</div>
-{% else %}
-  <span class="label"><b>Name:</b> </span>{{song.name}}
-{% endif %}
-</div>
-<div id="progress">
-  <div id="bar" style="width: {{ percent }}%"></div>
-</div>
-<div id="time">
-  <span class="label"><b>Time:</b> </span>
-  <span id="elapsed" data-ms="{{status.elapsed}}">{{ status.elapsed | int | timef }}</span>
-  <span class="label">/</span>
-  {% if 'duration' in status %}
-  <span id="duration" data-ms="{{status.duration}}">{{ status.duration | int | timef }}</span>
-  {% else %}<span id="duration">∞</span>
-  {% endif %}
-</div>
-<br><br>
-<div>
-  <div class="center"><h4>Up next</h4></b></div>
-  <ol class="queue">
-  {% for song in playlist[(status.song|int)+1:] %}
-    <li>
-      <div class="title"><span class="label"><b>Title: </b></span>{{ song.title }}</span></div>
-      <div class="artist"><span class="label"><b>Artist: </b></span><span>{{ song.artist }} </span></div> 
-      <div class="album"><span class="label"><b>Album: </b></span>{{ song.album }} ({{song.date}})</div>
-      {% if 'duration' in song %}<div class="duration"><span class="label"><b>Time:</b> </span>{{song.duration | int | timef}}</div>{% endif %}
-    </li>
-  {% endfor %}
-  </ol>
-</div>
+<div id="nowplaying">
+          <div class="center">
+            <h4 class="label">Now playing</h4>
+            <div class="artwork"><img title="Album Art" src="{{ song|artwork }}"></div>
+            <div class="title"><span class="label"><b>Title:</b> </span>{{ song.title }}</div>{% if 'duration' in status %}
+            <div class="artist"><span class="label"><b>Artist:</b> </span>{{song.artist}}</div>
+            <div class="album"><span class="label"><b>Album:</b></span> {{song.album}} ({{song.date}})</div>{% else %}
+            <span class="label"><b>Name:</b> </span>{{song.name}}{% endif %}
+          </div>
+          <div id="progress">
+            <div id="bar" style="width: {{ percent }}%"></div>
+          </div>
+          <div id="time">
+            <span class="label"><b>Time:</b> </span>
+            <span id="elapsed" data-ms="{{status.elapsed}}">{{ status.elapsed | default("0",True) | int | timef }}</span>
+            <span class="label">/</span>{% if 'duration' in status %}
+            <span id="duration" data-ms="{{status.duration}}">{{ status.duration | int | timef }}</span>{% else %}
+            <span id="duration">∞</span>{% endif %}
+          </div>
+        </div>
+        <div id="queue">
+          <br><br>
+          <div>
+            <div class="center"><h4>Up next</h4></div>
+            <ol class="queue">{% for song in playlist[(status.song|int)+1:] %}
+              <li>
+                <div class="title"><span class="label"><b>Title: </b></span>{{ song.title }}</div>
+                <div class="artist"><span class="label"><b>Artist: </b></span><span>{{ song.artist }} </span></div> 
+                <div class="album"><span class="label"><b>Album: </b></span>{{ song.album }} ({{song.date}})</div>{% if 'duration' in song %}
+                <div class="duration"><span class="label"><b>Time:</b> </span>{{song.duration | int | timef}}</div>{% endif %}
+              </li>{% endfor %}
+            </ol>
+          </div>
+        </div>

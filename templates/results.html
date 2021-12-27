@@ -6,7 +6,7 @@
     hx-swap="outerHTML"
     hx-get="/results?artist={{song.albumartist}}"
     hx-target="closest div.artist"
-    >{{song.albumartist}}</a>{% endif %}{% if song.album %}{% if not loop.previtem or loop.previtem.album != song.album %}
+    >{{song.albumartist|default(song.artist, True)}}</a>{% endif %}{% if song.album %}{% if not loop.previtem or loop.previtem.album != song.album %}
     <div class="album">
     <span><b>{{song.album}}</b></span> ({{song.date}})
     <div>

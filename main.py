@@ -57,7 +57,9 @@ async def test():
 def index():
     try:
         cli.ping()
-    except mpd.base.ConnectionError:
+    except (mpd.base.ProtocolError, UnicodeDecodeError):
+        print('weird error')
+    except (mpd.base.ConnectionError):
         print('reconnecting')
         cli.connect('mamba', 6600)
     status = cli.status()
@@ -77,14 +79,16 @@ def index():
 def nowplaying():
     try:
         cli.ping()
-    except mpd.base.ConnectionError:
+    except (mpd.base.ProtocolError, UnicodeDecodeError):
+        print('weird error')
+    except (mpd.base.ConnectionError):
         print('reconnecting')
         cli.connect('mamba', 6600)
     if request.method == "POST":
         for file in request.form.getlist("s"):
             cli.add(file)
         if "redirect" in request.args:
-            return redirect("/", code=302)
+            return redirect("/?r", code=302)
     status = cli.status()
     playlist = cli.playlistid()
     percent=100
@@ -98,13 +102,18 @@ def search():
     template = request.path[1:]+".html"
     try:
         cli.ping()
+    except (mpd.base.ProtocolError, UnicodeDecodeError):
+        print('weird error')
     except mpd.base.ConnectionError:
         print('reconnecting')
         cli.connect('mamba', 6600)
     q = request.args.get("q", "")
     artist = request.args.get("artist", "")
     if not q and not artist:
-        results = cli.list('albumartist')
+        try:
+            results = cli.list('albumartist')
+        except (mpd.base.ProtocolError):
+            results = []
         #results = cli.search('(artist contains "Cold")')
         return render_template(template, results=results)
     results = []
@@ -120,7 +129,7 @@ def search():
 
 @app.route("/art/<artist>/<album>.jpg")
 def art(artist, album):
-    path = os.path.join('/media','Music',artist, album,"Folder.jpg")
+    path = os.path.join('\\\\Mamba','Media','Music',artist, album,"Folder.jpg")
     if not os.path.exists(path):
         return Response(status=404)
     return send_file(path)

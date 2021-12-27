@@ -1,138 +1,215 @@
-    progress {
-      width: 100%;
-    }
-    h4 {
-      margin: 0;
-    }
-    button {
-      font-size: 1em;
-    }
-    #progress {
-      width: 100%;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid #8f8f9d;
-      background-color: #e9e9ed;
-      margin: 4px 0px;
-      height: .75em;
-    }
-    .center {
-      text-align:center;
-    }
-    #progress > div {
-      background-color: #0060df;
-      height: 100%
-    }
-    img {
-      height: 100px;
-    }
-    .artwork {
-      display: inline-block;
-      vertical-align:top;
-      height: 100px;
-      min-width: 100px;
-      margin: 0px auto 4px;
-      background-color: #e9e9ed;
-      box-shadow: 2px 2px 5px grey;
-    }
-    #search .album > div{
-      display: flex;
-      flex-direction: row;
-    }
-    #search .artwork {
-      margin-right: 4px;
-    }
-    .container {
-      max-width: 500px;
-      margin: 10px auto;
-    }
-    .focus {
-    }
-    .queue, #results{
-      border: 1px solid #8f8f9d;
-      margin-top: 2px;
-    }
-    li {
-      padding: 2px;
-    }
-    #time {
-      position: relative;
-    }
-    .nowplaying .title {
-      font-size: 1.2em;
-    }
-    .title{
-      font-weight: bold;
-    }
-    .label {
-      display: none
-    }
-    html {
-      font-family: sans-serif
-    }
-    #elapsed {
-      float: left;
-    }
-    #duration,.duration {
-      position: absolute;
-      top: 2px;
-      right: 2px;
-    }
-    #duration {
-      right: 0px;
-    }
-    #nowplaying li:nth-child(even) {
-      background-color: #e9e9ed;
-    }
-    .queue, #results {
-      margin-left: 15px;
-      margin-bottom: 10px;
-    }
-    .album ul {
-      flex-grow: 1;
-    }
-    #listen {
-      margin: 5px;
-    }
-    #nowplaying .artist, #nowplaying .album {
-      display: inline-block;
-    }
-    .queue .artist span::after {
-      content: " - "
-    }
-    li {
-      position: relative;
-    }
-    ul li {
-      list-style: none;
-      cursor: pointer;
-      user-select: none;
-      -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); 
-    }
-    ol,ul {
-      padding: 0;
-      margin: 0;
-    }
-    #search input[type=text]{
-      width: 100%;
-      margin-top:5px;
-    }
-    .selected {
-      background-color: #0060df !important;
-      color:white;
-    }
-    .checkbox {
-      position: absolute;
-      left: -25px;
-    }
-    @media screen and (max-width:500px) {
-      .checkbox {
-        display:none;
-      }
-      #results {
-        margin-left: 0px !important;
-      }
-      .hide {
-        display: none;
-      }
-    }
+html {
+  font-family: sans-serif
+}
+#search .container {
+  padding-top: 110px;
+}
+#nowplaying, #queue {
+  max-width: 500px;
+  margin: 0px auto;
+}
+#listen {
+  margin: 5px;
+}
+h4 {
+  margin: 0;
+}
+button {
+  font-size: 1.4em;
+}
+#progress {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #8f8f9d;
+  background-color: #e9e9ed;
+  margin: 4px 0px;
+  height: .75em;
+}
+.center {
+  text-align:center;
+}
+#progress > div {
+  background-color: #3395ff;
+  height: 100%
+}
+img {
+  height: 100px;
+}
+.artwork {
+  display: inline-block;
+  vertical-align:top;
+  height: 100px;
+  min-width: 100px;
+  margin: 0px auto 4px;
+  background-color: #e9e9ed;
+  box-shadow: 2px 2px 5px grey;
+}
+.focus {
+}
+.queue {
+  border: 1px solid #8f8f9d;
+  margin-top: 2px;
+}
+li {
+  padding: 2px;
+}
+#time {
+  position: relative;
+}
+#nowplaying .title {
+  font-size: 1.2em;
+}
+.title {
+  font-weight: bold;
+}
+.label {
+  display: none
+}
+#elapsed {
+  float: left;
+}
+#duration,.duration {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+#duration {
+  right: 0px;
+}
+#queue li:nth-child(even) {
+  background-color: #e9e9ed;
+}
+.queue {
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+#queue .artist, #queue .album {
+  display: inline-block;
+}
+.queue .artist span::after {
+  content: " - "
+}
+li {
+  position: relative;
+}
+ol {
+  padding: 0;
+  margin: 0;
+}
+.selected {
+  background-color: #0060df !important;
+  color:white;
+}
+#results{
+  padding-top: 110px;
+}
+#results .album > div{
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+#results .album > div > div {
+  display: inline-block;
+}
+#results .album {
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+#results .album .artwork {
+  margin-right: 4px;
+}
+#results .album .artwork img {
+  height: 100px;
+}
+#results .album span {
+  font-size: 1.2em;
+}
+#results .artist > a{
+  font-size: 1.4em;
+  margin-bottom: 20px;
+}
+
+.songs * {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); 
+}
+.songs div:nth-child(even) {
+  background-color: #e9e9ed;
+}
+.songs div:hover {
+  text-decoration: underline;
+}
+@media screen and (min-width:500px) {
+  #results .album {
+    margin-left: 30px;
+  }
+  #results .album .artwork {
+    margin-right: 8px !important;
+  }
+}
+#searchmenu {
+  position: fixed;
+  top: 0px;
+  padding:10px;
+  left: 0px;
+  right: 0px;
+  background-color: white;
+}
+#searchmenu > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0px auto;
+  max-width: 800px;
+}
+#searchmenu form { display: inline-block;}
+#searchform {
+  margin-left:5px; 
+  position: relative;
+  text-align: left;
+}
+#searchform input[type=text] { 
+  display: inline-block;
+  flex-grow: 1;
+}
+#searchmenu a, input[type=submit], input[type=text] {
+  font-size: 1.4em;
+}
+#searchform input[type=submit] { display: none;}
+#addmenu {
+  position: fixed;
+  top: 0px;
+  padding:5px 0px;
+  top: 48px;
+  left: 0;
+  right: 0;
+  background-color: white;
+}
+#alpha {
+  margin: 0px auto;
+  margin-top: 5px;
+  padding: 0px 5px;
+  font-size: 1.2em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 600px;
+}
+#alpha a{
+  color: #3395ff
+}
+
+@media(prefers-color-scheme:dark){
+  body, #searchmenu, #addmenu { background:#212529 !important; color:#fff; }
+  .selected {
+    background-color: #0060df !important;
+    color:white;
+  }
+  #queue li:nth-child(even), #progress, .songs div:nth-child(even) {
+    background: #363e44;
+  }
+  a { color:#3395ff; }
+  dl { background:#292f33; }
+  small { color: #ced4da; }
+}
