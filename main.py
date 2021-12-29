@@ -169,6 +169,10 @@ def art(artist, album):
     image = Image.open(p)
     return serve_pil_image(image.resize((100,100)))
 
+@app.route("/ip")
+def getip():
+    return jsonify(forwardedFor=request.headers.getlist("X-Forwarded-For"), remote_addr=request.remote_addr, realIP=request.environ.get('HTTP_X_REAL_IP'))
+
 if __name__ == '__main__':
     @app.route("/<path:name>")
     def serve_file(name):
