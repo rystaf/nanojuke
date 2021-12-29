@@ -169,11 +169,10 @@ def art(artist, album):
     image = Image.open(p)
     return serve_pil_image(image.resize((100,100)))
 
-@app.route("/<path:name>")
-def serve_file(name):
-    return send_from_directory('public', name)
-
 if __name__ == '__main__':
+    @app.route("/<path:name>")
+    def serve_file(name):
+        return send_from_directory('public', name)
     @app.route("/debug")
     def getjson():
         try:

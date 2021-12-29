@@ -4,4 +4,5 @@ workdir /app
 copy . /app
 run make .venv/bin
 expose 8000
+volume ["/app/public"]
 cmd ["make", "prod"]
