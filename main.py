@@ -92,7 +92,6 @@ def nowplaying():
     playlist = cli.playlistid()
     status = cli.status()
     if request.method == "POST":
-        print('post')
         songid = request.form.get('songid')
         song = next((song for song in playlist if song['id'] == songid), None)
         submit = request.form.get('submit')
@@ -110,7 +109,8 @@ def nowplaying():
             for n, file in enumerate(request.form.getlist("s"), start=0):
                 if not local and (len(playlist[int(status["song"]):])+n) > 40:
                     break
-                print('adding', file)
+                if next((s for s in playlist if s['file'] == file), None):
+                    continue
                 cli.add(file)
             return redirect("/#c", code=302)
         elif submit == "Skip":
