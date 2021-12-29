@@ -2,30 +2,22 @@
 {% if not loop.previtem or "title" not in song or (loop.previtem.album != song.album and loop.previtem.albumartist != song.albumartist) %}
 <div {% if song.albumartist %}id="{{song.albumartist|first}}"{% endif %} class="artist">
   <a
-    href="?artist={{song.albumartist}}"
-    hx-swap="outerHTML"
-    hx-get="/results?artist={{song.albumartist}}"
-    hx-target="closest div.artist"
-    >{{song.albumartist|default(song.artist, True)}}</a>{% endif %}{% if song.album %}{% if not loop.previtem or loop.previtem.album != song.album %}
-    <div class="album">
-    <span><b>{{song.album}}</b></span> ({{song.date}})
+    href="?artist={{song.albumartist|urlencode}}"
+    onclick="artistClick(event)"
+    >{{song.albumartist}}</a>{% endif %}{% if song.album %}{% if not loop.previtem or loop.previtem.album != song.album %}
+  <div class="album">
+  <div class="albumtitle" onclick="albumClick(event)"><span><b>{{song.album}}</b></span> ({{song.date}})</div>
     <div>
       <div class="artwork"><img src="{{ song | artwork}}"></div>
       <div class="songs">{% endif %}
-        <div 
-          x-data="{checked: false}"
-          @click.prevent="checked = !checked"
-          :class="checked?'selected':''">
-          <label><input
-            x-model="checked"
-            x-show="false"
-            name="s"
-            type="checkbox"
-            value="{{song.file}}">
-            {{song.track}}. {{ song.title }}
-          </label>
-        </div>{% if not loop.nextitem or loop.nextitem.album != song.album %}
-      </div> <!-- Close album -->
+        <label><div><input
+          name="s"
+          type="checkbox"
+          value="{{song.file}}">
+          {{song.track}}. <span>{{ song.title }}</span>
+          </div></label>
+        {% if not loop.nextitem or loop.nextitem.album != song.album %}
+      </div>
     </div>
   </div>
   <p></p>{% endif %}{% endif %}{% if not loop.nextitem or "title" not in song or (loop.nextitem.album != song.album and loop.nextitem.albumartist != song.albumartist) %}

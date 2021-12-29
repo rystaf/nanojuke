@@ -2,8 +2,7 @@
   <head>
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     <link rel="stylesheet" href="/main.css"/>
-    <script src="https://unpkg.com/alpinejs" defer></script>
-    <script src="https://unpkg.com/htmx.org@1.6.1" defer></script>
+    <script src="/main.js" type="text/javascript"></script>
   </head>
   <body>
     <div id="searchmenu" class="center">
@@ -23,10 +22,12 @@
       </div>
     </div>
     {% if results %}
-    <form action="/nowplaying?redirect" method="POST">
+    <form action="/nowplaying" method="POST">
       <div id="addmenu" class="center">
-        <input type="submit" value="Add selected songs">
-        <div id="alpha">{% for x in range(26) %}
+        <input type="submit" name="submit" value="Add selected songs">
+        <div id="alpha">
+          {# if results|firstlist contains hash #}
+          {% for x in range(26) %}
           {% if (65+x) in results|firstlist %}<a href="#{{(65+x)|chr}}" >{{(65+x)|chr}}</a>{%else%}<span>{{(65+x)|chr}}</span>{% endif %}{% endfor %}</div>
       </div>
       <div id="results">

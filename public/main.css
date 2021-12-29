@@ -1,12 +1,20 @@
 html {
-  font-family: sans-serif
+  font-family: sans-serif;
+  height: 100%;
 }
-#search .container {
-  padding-top: 110px;
+body {
+  margin: 0;
+  height: 100%;
 }
-#nowplaying, #queue {
-  max-width: 500px;
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 600px;
   margin: 0px auto;
+}
+#search {
+  margin: 20px 0px;
 }
 #listen {
   margin: 5px;
@@ -18,12 +26,11 @@ button {
   font-size: 1.4em;
 }
 #progress {
-  width: 100%;
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid #8f8f9d;
   background-color: #e9e9ed;
-  margin: 4px 0px;
+  margin: 4px 10px 0px 10px;
   height: .75em;
 }
 .center {
@@ -45,11 +52,15 @@ img {
   background-color: #e9e9ed;
   box-shadow: 2px 2px 5px grey;
 }
-.focus {
+
+#queue .artwork, #queue img {
+  height: 50px !important;
+  min-width: 50px;
+  box-shadow: unset !important;
 }
-.queue {
-  border: 1px solid #8f8f9d;
-  margin-top: 2px;
+#queue .artwork {
+  margin: 2px 5px 2px 2px;
+  float: left;
 }
 li {
   padding: 2px;
@@ -57,8 +68,12 @@ li {
 #time {
   position: relative;
 }
+#time span {
+  margin: 0px 10px;
+}
 #nowplaying .title {
   font-size: 1.2em;
+
 }
 .title {
   font-weight: bold;
@@ -72,23 +87,41 @@ li {
 #duration,.duration {
   position: absolute;
   top: 2px;
-  right: 2px;
+  right: 8px;
 }
 #duration {
   right: 0px;
 }
+#queue {
+  margin-top: 10px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
 #queue li:nth-child(even) {
   background-color: #e9e9ed;
 }
-.queue {
-  margin-left: 15px;
-  margin-bottom: 10px;
+#queue li {
+  position: relative;
+  padding-right: 50px;
+  white-space: nowrap;
 }
-#queue .artist, #queue .album {
-  display: inline-block;
+.meta {
+  margin-right:40px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow:hidden;
 }
-.queue .artist span::after {
-  content: " - "
+#queue ol {
+  margin-left: 26px;
+}
+#queue .contents{
+  margin-top: 5px;
+  overflow-y: auto;
+  padding-left: 5px;
+}
+.empty {
+  margin: 5px;
 }
 li {
   position: relative;
@@ -102,11 +135,13 @@ ol {
   color:white;
 }
 #results{
-  padding-top: 110px;
+  padding-top: 115px;
 }
-#results .album > div{
+#results .albumtitle{
+  cursor: pointer;
+  user-select: none;
   font-size: 1.2em;
-  margin-top: 10px;
+  margin: 10px 0px;
 }
 #results .album > div > div {
   display: inline-block;
@@ -121,7 +156,7 @@ ol {
 #results .album .artwork img {
   height: 100px;
 }
-#results .album span {
+#results .album > span {
   font-size: 1.2em;
 }
 #results .artist > a{
@@ -137,7 +172,7 @@ ol {
 .songs div:nth-child(even) {
   background-color: #e9e9ed;
 }
-.songs div:hover {
+.songs div span:hover {
   text-decoration: underline;
 }
 @media screen and (min-width:500px) {
@@ -176,6 +211,16 @@ ol {
 #searchmenu a, input[type=submit], input[type=text] {
   font-size: 1.4em;
 }
+.actions input {
+  font-size: .8em !important;
+  font-weight: bold;
+  cursor: pointer;
+}
+.actions {
+  position: absolute;
+  bottom: 10px;
+  right: 5px;
+}
 #searchform input[type=submit] { display: none;}
 #addmenu {
   position: fixed;
@@ -212,4 +257,7 @@ ol {
   a { color:#3395ff; }
   dl { background:#292f33; }
   small { color: #ced4da; }
+  #queue .contents {
+    background-color: #20272e;
+  }
 }
