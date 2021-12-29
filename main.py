@@ -76,7 +76,10 @@ def first(l):
 @app.route("/nowplaying", methods=['GET', 'POST'])
 def nowplaying():
     template = (request.path[1:] or "index")+".html"
-    local = ip_address(request.environ.get('HTTP_X_REAL_IP')).is_private
+    if app.debug:
+        local = True
+    else:
+        local = ip_address(request.environ.get('HTTP_X_REAL_IP', '8.8.8.8')).is_private
     try:
         cli.ping()
     except (ProtocolError, UnicodeDecodeError):
@@ -104,8 +107,8 @@ def nowplaying():
             if song:
                 cli.moveid(songid, int(status["song"])+1)
         elif submit == "Add selected songs":
-            for file in request.form.getlist("s"):
-                if not local and len(playlist) > 20:
+            for n, file in enumerate(request.form.getlist("s"), start=0):
+                if not local and (len(playlist[int(status["song"]):])+n) > 40:
                     break
                 print('adding', file)
                 cli.add(file)
