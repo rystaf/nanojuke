@@ -5,6 +5,7 @@ from flask import Flask,jsonify,render_template,Response,send_file,request,redir
 from mpd import MPDClient
 from mpd.base import ProtocolError, ConnectionError
 from math import floor
+from ipaddress import ip_address
 import time
 from os import path
 from io import BytesIO
@@ -75,6 +76,7 @@ def first(l):
 @app.route("/nowplaying", methods=['GET', 'POST'])
 def nowplaying():
     template = (request.path[1:] or "index")+".html"
+    local = ip_address(request.environ.get('HTTP_X_REAL_IP')).is_private
     try:
         cli.ping()
     except (ProtocolError, UnicodeDecodeError):
@@ -92,6 +94,8 @@ def nowplaying():
         song = next((song for song in playlist if song['id'] == songid), None)
         submit = request.form.get('submit')
         if submit == "X":
+            if not local:
+                return Response(status=401)
             cli.deleteid(songid)
         if submit == "^":
             if song and int(song["pos"]) != int(status["song"])+1:
@@ -101,10 +105,14 @@ def nowplaying():
                 cli.moveid(songid, int(status["song"])+1)
         elif submit == "Add selected songs":
             for file in request.form.getlist("s"):
+                if not local and len(playlist) > 20:
+                    return Response(status=401)
                 print('adding', file)
                 cli.add(file)
             return redirect("/#c", code=302)
         elif submit == "Skip":
+            if not local:
+                return Response(status=401)
             cli.next()
             time.sleep(1)
         if not request.form.get('ajax'):
@@ -121,7 +129,7 @@ def nowplaying():
     song = {}
     if "song" in status:
         song = playlist[int(status["song"])]
-    return render_template(template, status=status, playlist=playlist, song=song, percent=percent, updateFreq=updateFreq, pageTitle=pageTitle, streamURL=streamURL)
+    return render_template(template, status=status, playlist=playlist, song=song, percent=percent, updateFreq=updateFreq, pageTitle=pageTitle, streamURL=streamURL, local=local)
 
 @app.route("/search")
 @app.route("/results")

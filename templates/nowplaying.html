@@ -19,7 +19,7 @@
           </div><!--nowplaying-->
         </div>
         <br>
-        <div class="center"><form action="/nowplaying" onsubmit="formSubmit(event)" method="POST"><input type="submit" name="submit" value="Skip"></form></div>
+        {% if local %}<div class="center"><form action="/nowplaying" onsubmit="formSubmit(event)" method="POST"><input type="submit" name="submit" value="Skip"></form></div>{% endif %}
         <div id="queue">
           <div class="center"><h4>Up next</h4></div>
           <div class="contents">
@@ -38,7 +38,7 @@
                     <input type="hidden" name="songid" value="{{song.id}}">{% if (song.pos|int) != (status.song|int) + 1 %}
                     <input type="submit" name="submit" value="T">
                     <input type="submit" name="submit" value="^">{% endif%}
-                    <input type="submit" name="submit" value="X">
+                    {% if local %}<input type="submit" name="submit" value="X">{% endif %}
                   </form>
                 </div>
               </li>{% endfor %}{% endif %}
