@@ -121,7 +121,7 @@ def nowplaying():
     song = {}
     if "song" in status:
         song = playlist[int(status["song"])]
-    return render_template(template, status=status, playlist=playlist, song=song, percent=percent, updateFreq=updateFreq, pageTitle=pageTitle)
+    return render_template(template, status=status, playlist=playlist, song=song, percent=percent, updateFreq=updateFreq, pageTitle=pageTitle, streamURL=streamURL)
 
 @app.route("/search")
 @app.route("/results")
