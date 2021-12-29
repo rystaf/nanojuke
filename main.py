@@ -106,7 +106,7 @@ def nowplaying():
         elif submit == "Add selected songs":
             for file in request.form.getlist("s"):
                 if not local and len(playlist) > 20:
-                    return Response(status=401)
+                    break
                 print('adding', file)
                 cli.add(file)
             return redirect("/#c", code=302)
