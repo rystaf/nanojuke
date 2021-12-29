@@ -4,13 +4,15 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     <script src="/main.js" type="text/javascript"></script>
     <link rel="stylesheet" href="/main.css"/>
+    <link rel="icon" href="/favicon.png">
+    <title>{{ pageTitle }}</title>
   </head>
   <body>
     <div class="container">
       <div class="center" id="listen"></div>
-      <audio id="stream" src="https://radio.nanorex.net/stream.mp3"  preload="none"></audio>
+      <audio id="stream" src="{{ streamURL }}"  preload="none"></audio>
       <noscript>
-        <p class="center"><a target="_blank" href="https://radio.nanorex.net/stream.mp3">https://radio.nanorex.net/stream.mp3</a></p>
+        <p class="center"><a target="_blank" href="{{ streamURL }}">{{ streamURL }}</a></p>
       </noscript>
       {% include 'nowplaying.html' %}
       <div id="search" class="center">
@@ -18,40 +20,10 @@
       </div>
     </div>
     <script type="text/javascript">
-      const loop = setInterval(function() {
-        let elapsed = parseFloat($("#elapsed").getAttribute("data-ms"))
-        let duration = parseFloat($("#duration").getAttribute("data-ms"))
-        if ((elapsed + 1) >= duration) {
-          $("#bar").style.width = "100%"
-          $("#elapsed").innerHTML = $("#duration").innerHTML
-          return
-        }
-        elapsed += 1
-        $("#elapsed").setAttribute("data-ms", elapsed)
-        $("#bar").style.width = Math.floor(elapsed / duration * 100)+"%"
-        $("#elapsed").innerHTML = new Date(elapsed * 1000).toISOString().substr(14, 5);
-      }, 1000)
-      if (window.location.hash != '#d') setInterval(getNowPlaying,{{ updateFreq }}*1000)
-      $("#listen").innerHTML = '<button id="listenbutton">Listen</button>'
-      $("#listenbutton").onclick = function(e) {
-        let audio = $("#stream")
-        if (!audio.paused) {
-          e.target.innerHTML = "Listen"
-          audio.pause()
-          audio.src = audio.src
-          return
-        }
-        e.target.innerHTML = "Mute"
-        audio.play()
-      }
+      const loop = setInterval(progressUpdate, 1000)
+      setInterval(getNowPlaying,{{ updateFreq }}*1000)
+      addListenButton()
     </script>
-    <script type="text/javascript">
-      var ws = new WebSocket('ws://localhost:8080/');
-      let x = false
-      ws.onmessage = function() {
-        if (x) window.location.reload();
-        x = true
-      }
-    </script>
+    {% if debug %}<script src="/ws.js" type="text/javascript"></script>{% endif %}
   </body>
 </html>

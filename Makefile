@@ -34,5 +34,5 @@ test:
 	rm cookies.txt
 	./test.sh
 
-prod: $(VENVBIN)/activate
-	gunicorn --bind 0.0.0.0:5001 main:app
+prod: $(VENVBIN)
+	gunicorn --bind 0.0.0.0:8000 main:app

@@ -4,9 +4,8 @@ if (window.location.hash == '#c') {
 }
 function $(selector) { return document.querySelector(selector); }
 function insertResponse(res){
-  document.getElementById("nowplaying").innerHTML=res.substring(res.indexOf("nowplaying")+12, res.indexOf("<!--now"))
-  document.getElementById("nowplaying").innerHTML=res.substring(res.indexOf("nowplaying")+12, res.indexOf("<!--now"))
-  document.querySelector("#queue ol").innerHTML=res.substring(res.indexOf("<ol>")+4, res.indexOf("</ol>"))
+  $("#nowplaying").innerHTML=res.substring(res.indexOf("nowplaying")+12, res.indexOf("<!--now"))
+  $("#queue ol").innerHTML=res.substring(res.indexOf("<ol>")+4, res.indexOf("</ol>"))
 }
 function getNowPlaying() {
   const r = Math.floor(Math.random()*10000)
@@ -20,6 +19,33 @@ function popup() {
       getNowPlaying();
     }
   }, 500);
+}
+function progressUpdate(){
+  let elapsed = parseFloat($("#elapsed").getAttribute("data-ms"))
+  let duration = parseFloat($("#duration").getAttribute("data-ms"))
+  if ((elapsed + 1) >= duration) {
+    $("#bar").style.width = "100%"
+    $("#elapsed").innerHTML = $("#duration").innerHTML
+    return
+  }
+  elapsed += 1
+  $("#elapsed").setAttribute("data-ms", elapsed)
+  $("#bar").style.width = Math.floor(elapsed / duration * 100)+"%"
+  $("#elapsed").innerHTML = new Date(elapsed * 1000).toISOString().substr(14, 5);
+}
+function addListenButton(){
+  $("#listen").innerHTML = '<button id="listenbutton">Listen</button>'
+  $("#listenbutton").onclick = function(e) {
+    let audio = $("#stream")
+    if (!audio.paused) {
+      e.target.innerHTML = "Listen"
+      audio.pause()
+      audio.src = audio.src
+      return
+    }
+    e.target.innerHTML = "Mute"
+    audio.play()
+  }
 }
 function formSubmit(e) {
   e.preventDefault();

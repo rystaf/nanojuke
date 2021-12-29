@@ -21,6 +21,8 @@ cfg = config['mpdjuke']
 mpdhost = cfg.get('mpdhost', '127.0.0.1')
 mpdport = cfg.get('mpdport', 6600)
 musicdir = cfg.get('musicdir')
+streamURL = cfg.get('streamURL')
+pageTitle = cfg.get('pageTitle', 'MPD Juke')
 albumartFilename = cfg.get('albumartFilename', 'Folder.jpg')
 updateFreq = cfg.get('updateFreq', 10) # seconds
 
@@ -119,7 +121,7 @@ def nowplaying():
     song = {}
     if "song" in status:
         song = playlist[int(status["song"])]
-    return render_template(template, status=status, playlist=playlist, song=song, percent=percent, updateFreq=updateFreq)
+    return render_template(template, status=status, playlist=playlist, song=song, percent=percent, updateFreq=updateFreq, pageTitle=pageTitle)
 
 @app.route("/search")
 @app.route("/results")
@@ -167,10 +169,11 @@ def art(artist, album):
     image = Image.open(p)
     return serve_pil_image(image.resize((100,100)))
 
+@app.route("/<path:name>")
+def serve_file(name):
+    return send_from_directory('public', name)
+
 if __name__ == '__main__':
-    @app.route("/<path:name>")
-    def serve_file(name):
-        return send_from_directory('public', name)
     @app.route("/debug")
     def getjson():
         try:
@@ -184,5 +187,8 @@ if __name__ == '__main__':
         status = cli.status()
         playlist = cli.playlistid()
         return jsonify(status=status, playlist=playlist)
+    @app.context_processor
+    def inject_debug():
+        return dict(debug=app.debug)
     app.run(host='0.0.0.0', debug=True)
 
