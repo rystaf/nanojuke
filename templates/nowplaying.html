@@ -1,47 +1,47 @@
-        <div id="nowplaying">
-          <div class="center">
-            <h4 class="label">Now playing</h4>
-            <div class="artwork"><img title="Album Art" src="{{ song|artwork }}"></div>
-            <div class="title"><span class="label"><b>Title:</b> </span>{{ song.title }}</div>{% if 'duration' in status %}
-            <div class="artist"><span class="label"><b>Artist:</b> </span>{{song.artist}}</div>
-            <div class="album"><span class="label"><b>Album:</b></span> {{song.album}} ({{song.date}})</div>{% else %}
-            <span class="label"><b>Name:</b> </span>{{song.name}}{% endif %}
-          </div>
-          <div id="progress">
-            <div id="bar" style="width: {{ percent }}%"></div>
-          </div>
-          <div id="time">
-            <span class="label"><b>Time:</b> </span>
-            <span id="elapsed" data-ms="{{status.elapsed}}">{{ status.elapsed | default("0",True) | int | timef }}</span>
-            <span class="label">/</span>{% if 'duration' in status %}
-            <span id="duration" data-ms="{{status.duration}}">{{ status.duration | int | timef }}</span>{% else %}
-            <span id="duration">∞</span>{% endif %}
-          </div><!--nowplaying-->
+<div id="nowplaying">
+        <div class="center">
+          <h4 class="label">Now playing</h4>
+          <div class="artwork"><img title="Album Art" src="{{ song|artwork }}"></div>
+          <div class="title"><span class="label"><b>Title:</b> </span>{{ song.title }}</div>{% if 'duration' in status %}
+          <div class="artist"><span class="label"><b>Artist:</b> </span>{{song.artist}}</div>
+          <div class="album"><span class="label"><b>Album:</b></span> {{song.album}} ({{song.date}})</div>{% else %}
+          <span class="label"><b>Name:</b> </span>{{song.name}}{% endif %}
         </div>
-        <br>
-        {% if local %}<div class="center"><form action="/nowplaying" onsubmit="formSubmit(event)" method="POST"><input type="submit" name="submit" value="Skip"></form></div>{% endif %}
-        <div id="queue">
-          <div class="center"><h4>Up next</h4></div>
-          <div class="contents">
-            <ol>{% if not "song" in status or not playlist[(status.song|int)+1:] %}
-              <div class="center empty">Queue empty, playing random songs</div>{% endif %}{% if "song" in status %}{% for song in playlist[(status.song|int)+1:] %}
-              <li>
-                <div class="meta">
-                  <span class="artwork"><img title="Album Art" src="{{ song|artwork }}"></span>
-                  <span class="title"><span class="label"><b>Title: </b></span><span>{{ song.title | default(song.file | filename, True) | truncate(50) }}</span></span><br>
-                  <span class="artist"><span class="label"><b>Artist: </b></span>{% if song.artist %}<span>{{ song.artist }} </span>{% endif %}</span><br>
-                  <span class="album"><span class="label"><b>Album: </b></span>{% if song.album %}{{ song.album | truncate(45) }} ({{song.date}}){% endif %}</span>
-                </div>{% if 'duration' in song %}
-                <div class="duration"><span class="label"><b>Time:</b> </span>{{song.duration | int | timef}}</div>{% endif %}
-                <div class="actions">
-                  <form action="/nowplaying" onsubmit="formSubmit(event)" method="POST">
-                    <input type="hidden" name="songid" value="{{song.id}}">{% if (song.pos|int) != (status.song|int) + 1 %}
-                    <input type="submit" name="submit" value="T">
-                    <input type="submit" name="submit" value="^">{% endif%}
-                    {% if local %}<input type="submit" name="submit" value="X">{% endif %}
-                  </form>
-                </div>
-              </li>{% endfor %}{% endif %}
-            </ol>
-          </div>
-          </div><!--queue-->
+        <div id="progress">
+          <div id="bar" style="width: {{ percent }}%"></div>
+        </div>
+        <div id="time">
+          <span class="label"><b>Time:</b> </span>
+          <span id="elapsed" data-ms="{{status.elapsed}}">{{ status.elapsed | default("0",True) | int | timef }}</span>
+          <span class="label">/</span>{% if 'duration' in status %}
+          <span id="duration" data-ms="{{status.duration}}">{{ status.duration | int | timef }}</span>{% else %}
+          <span id="duration">∞</span>{% endif %}
+        </div><!--nowplaying-->
+      </div>
+      <br>
+      {% if local %}<div class="center"><form action="/nowplaying" onsubmit="formSubmit(event)" method="POST"><input type="submit" name="submit" value="Skip"></form></div>{% endif %}
+      <div id="queue">
+        <div class="center"><h4>Up next</h4></div>
+        <div class="contents">
+          <ol>{% if not "song" in status or not playlist[(status.song|int)+1:] %}
+            <div class="center empty">Queue empty, playing random songs</div>{% endif %}{% if "song" in status %}{% for song in playlist[(status.song|int)+1:] %}
+            <li>
+              <div class="meta">
+                <span class="artwork"><img title="Album Art" src="{{ song|artwork }}"></span>
+                <span class="title"><span class="label"><b>Title: </b></span><span>{{ song.title | default(song.file | filename, True) | truncate(50) }}</span></span><br>
+                <span class="artist"><span class="label"><b>Artist: </b></span>{% if song.artist %}<span>{{ song.artist }} </span>{% endif %}</span><br>
+                <span class="album"><span class="label"><b>Album: </b></span>{% if song.album %}{{ song.album | truncate(45) }} ({{song.date}}){% endif %}</span>
+              </div>{% if 'duration' in song %}
+              <div class="duration"><span class="label"><b>Time:</b> </span>{{song.duration | int | timef}}</div>{% endif %}
+              <div class="actions">
+                <form action="/nowplaying" onsubmit="formSubmit(event)" method="POST">
+                  <input type="hidden" name="songid" value="{{song.id}}">{% if (song.pos|int) != (status.song|int) + 1 %}
+                  <input type="submit" name="submit" value="T">
+                  <input type="submit" name="submit" value="^">{% endif%}
+                  {% if local %}<input type="submit" name="submit" value="X">{% endif %}
+                </form>
+              </div>
+            </li>{% endfor %}{% endif %}
+          </ol>
+        </div>
+        </div><!--queue-->

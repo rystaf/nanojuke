@@ -215,6 +215,7 @@ ol {
   font-size: .8em !important;
   font-weight: bold;
   cursor: pointer;
+  width: 20px;
 }
 .actions {
   position: absolute;

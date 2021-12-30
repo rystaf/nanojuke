@@ -9,7 +9,7 @@ function insertResponse(res){
 }
 function getNowPlaying() {
   const r = Math.floor(Math.random()*10000)
-  request('/nowplaying?r='+r,null, insertResponse)
+  request('/nowplaying?r='+r, null, insertResponse)
 }
 function popup() {
   const win = window.open('/search','popup','scrollbars=1,width=600,height=600'); 
@@ -22,7 +22,7 @@ function popup() {
 }
 function progressUpdate(){
   let elapsed = parseFloat($("#elapsed").getAttribute("data-ms"))
-  let duration = parseFloat($("#duration").getAttribute("data-ms"))
+  const duration = parseFloat($("#duration").getAttribute("data-ms"))
   if ((elapsed + 1) >= duration) {
     $("#bar").style.width = "100%"
     $("#elapsed").innerHTML = $("#duration").innerHTML
@@ -36,7 +36,7 @@ function progressUpdate(){
 function addListenButton(){
   $("#listen").innerHTML = '<button id="listenbutton">Listen</button>'
   $("#listenbutton").onclick = function(e) {
-    let audio = $("#stream")
+    const audio = $("#stream")
     if (!audio.paused) {
       e.target.innerHTML = "Listen"
       audio.pause()
@@ -61,24 +61,20 @@ function artistClick(e) {
 }
 function albumClick(e) {
   e.currentTarget.checked = !e.currentTarget.checked
-  for (let box of e.currentTarget.parentNode.getElementsByTagName('input')) {
+  for (const box of e.currentTarget.parentNode.getElementsByTagName('input')) {
     box.checked = e.currentTarget.checked
   }
 }
 function request(theUrl, params, callback) {
-  var xmlHttp = new XMLHttpRequest();
+  const xmlHttp = new XMLHttpRequest();
   xmlHttp.onreadystatechange = function() { 
     if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
       callback(xmlHttp.responseText);
   }
-  var method = "GET"
-  if (params) { 
-    params += "&ajax=True"
-    method = "POST"
-  }
-  xmlHttp.open(method, theUrl, true); // true for asynchronous 
-  if (method = "POST") {
+  let method = "GET"
+  if (params) method = "POST"
+  xmlHttp.open(method, theUrl, true);
+  if (method = "POST")
     xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  }
   xmlHttp.send(params);
 }

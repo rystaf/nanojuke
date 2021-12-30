@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# coding: utf-8
 from configparser import ConfigParser
 from flask import Flask,jsonify,render_template,Response,send_file,request,redirect,send_from_directory
 from mpd import MPDClient
@@ -76,18 +75,13 @@ def first(l):
 @app.route("/nowplaying", methods=['GET', 'POST'])
 def nowplaying():
     template = (request.path[1:] or "index")+".html"
-    if app.debug:
-        local = True
-    else:
-        local = ip_address(request.environ.get('HTTP_X_REAL_IP', '8.8.8.8')).is_private
+    local = (app.debug or ip_address(request.environ.get('HTTP_X_REAL_IP', '8.8.8.8')).is_private)
     try:
         cli.ping()
     except (ProtocolError, UnicodeDecodeError):
-        print('weird error')
         cli.close()
         cli.connect(mpdhost, mpdport)
     except (ConnectionError):
-        print('reconnecting')
         cli.connect(mpdhost, mpdport)
     playlist = cli.playlistid()
     status = cli.status()
@@ -118,7 +112,7 @@ def nowplaying():
                 return Response(status=401)
             cli.next()
             time.sleep(1)
-        if not request.form.get('ajax'):
+        if request.headers.get('Sec-Fetch-Dest', None):
             return redirect("/", code=302)
     status = cli.status()
     playlist = cli.playlistid()
