@@ -112,7 +112,7 @@ def nowplaying():
                 return Response(status=401)
             cli.next()
             time.sleep(1)
-        if request.headers.get('Sec-Fetch-Dest', None):
+        if request.headers.get('Sec-Fetch-Dest') == 'Document':
             return redirect("/", code=302)
     status = cli.status()
     playlist = cli.playlistid()
