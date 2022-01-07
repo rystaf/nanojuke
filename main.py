@@ -50,6 +50,9 @@ def firstEl(x):
         return firstEl(x)
     return x
 
+def firstLtr(s):
+    return re.sub('^THE ','',firstEl(s).upper())[0]
+
 def alphaOrd(a):
     a = a.upper()
     o = ord(a)
@@ -64,12 +67,11 @@ def alphaChr(a):
 
 @app.template_filter('firstlist')
 def firstlist(l):
-    return [alphaOrd(firstEl(x["albumartist"])[0]) for x in l if "albumartist" in x and x["albumartist"]]
+    return [alphaOrd(firstLtr(firstEl(x["albumartist"]))) for x in l if "albumartist" in x and x["albumartist"]]
 
 @app.template_filter('first')
 def first(l):
-    fl = re.sub('^THE ','',firstEl(l).upper())[0]
-    return alphaChr(fl)
+    return alphaChr(firstLtr(l))
 
 @app.route("/")
 @app.route("/nowplaying", methods=['GET', 'POST'])

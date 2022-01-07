@@ -24,7 +24,7 @@
         <div class="center"><h4>Up next</h4></div>
         <div class="contents">
           <ol>{% if not "song" in status or not playlist[(status.song|int)+1:] %}
-            <div class="center empty">Queue empty, playing random songs</div>{% endif %}{% if "song" in status %}{% for song in playlist[(status.song|int)+1:] %}
+            <div class="center empty">Queue empty, playing similar artists</div>{% endif %}{% if "song" in status %}{% for song in playlist[(status.song|int)+1:] %}
             <li>
               <div class="meta">
                 <span class="artwork"><img title="Album Art" src="{{ song|artwork }}"></span>
