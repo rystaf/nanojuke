@@ -9,7 +9,7 @@
   <body>
     <div id="searchmenu" class="center">
       <div>
-        <form action="/"><input onclick="window.close()" type="submit" value="Back"></form>
+        <form action="/{% if artist %}search{%endif%}"><input onclick="window.close()" type="submit" value="Back"></form>
         <form id="searchform">
           <input 
             type="text"
