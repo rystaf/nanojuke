@@ -1,9 +1,9 @@
 # nanojuke - a simple web frontend for mpd
 
-Serves a legacy-first website for queueing music
+easily search and add music to the queue
 optional javascript
 skip/delete permissions only from private ip address
-todo: associate queued songs and reorder permission to user session
+todo: associate queued songs and reorder/delete permission to user
 
 ## config
 
@@ -23,3 +23,8 @@ albumartFilename=Folder.jpg
 musicdir=/music
 # albumart is expected to be at /music/artist/album/Folder.jpg
 ```
+
+# local development
+
+uses websocketd at watchexec to autorefresh page after changes are made
+run `make`

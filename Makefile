@@ -5,7 +5,7 @@ else
 endif
 PATH := $(VENVBIN):$(PATH)
 
-.PHONY: update-requirements run clean docker all dev
+.PHONY: update-requirements run prod
 
 all: 
 	$(MAKE) -j2 --no-print-directory dev
@@ -15,9 +15,7 @@ dev: reload run
 reload:
 	websocketd --port=8080 watchexec -e js,css,html echo reload
 
-
-update-requirements:
-	python3 -m venv .venv
+update-requirements: $(VENVBIN)
 	$(VENVBIN)/pip freeze > requirements.txt
 
 $(VENVBIN): requirements.txt
@@ -25,14 +23,7 @@ $(VENVBIN): requirements.txt
 	$(VENVBIN)/pip install -Ur requirements.txt
 
 run: $(VENVBIN)
-	python main.py
-
-clean:
-	rm -rf .venv
-
-test:
-	rm cookies.txt
-	./test.sh
+	python3 main.py
 
 prod: $(VENVBIN)
 	gunicorn --bind 0.0.0.0:8000 main:app
