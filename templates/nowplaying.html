@@ -36,9 +36,9 @@
               <div class="actions">
                 <form action="/nowplaying" onsubmit="formSubmit(event)" method="POST">
                   <input type="hidden" name="songid" value="{{song.id}}">{% if (song.pos|int) != (status.song|int) + 1 %}
-                  <input type="submit" name="submit" value="T">
-                  <input type="submit" name="submit" value="^">{% endif%}
-                  {% if local %}<input type="submit" name="submit" value="X">{% endif %}
+                  <input type="submit" name="submit" value="T" title="Move to top">
+                  <input type="submit" name="submit" value="^" title="Move up">{% endif%}
+                  {% if local %}<input type="submit" name="submit" value="X" title="Remove">{% endif %}
                 </form>
               </div>
             </li>{% endfor %}{% endif %}

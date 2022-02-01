@@ -21,7 +21,7 @@
     </div>
     <script type="text/javascript">
       const loop = setInterval(progressUpdate, 1000)
-      setInterval(getNowPlaying,{{ updateFreq }}*1000)
+      if (window.location.hash != '#d') setInterval(getNowPlaying,{{ updateFreq }}*1000)
       addListenButton()
     </script>
     {% if debug %}<script src="/ws.js" type="text/javascript"></script>{% endif %}
