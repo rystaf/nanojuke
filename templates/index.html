@@ -9,20 +9,15 @@
   </head>
   <body>
     <div class="container">
-      <div class="center" id="listen"></div>
-      <audio id="stream" src="{{ streamURL }}"  preload="none"></audio>
-      <noscript>
-        <p class="center"><a target="_blank" href="{{ streamURL }}">{{ streamURL }}</a></p>
-      </noscript>
-      {% include 'nowplaying.html' %}
+      {% if streamURL %}<div class="center" id="listen"><a href="{{ streamURL }}" target="_blank">Listen</a></div>
+      {% endif %}{% include 'nowplaying.html' %}
       <div id="search" class="center">
-        <form action="/search"><input onclick="popup(); return false;" type="submit" value="Search"></form>
+        <form action="/search" onsubmit="popup(event); return false;" ><input type="submit" value="Search"></form>
       </div>
     </div>
     <script type="text/javascript">
-      const loop = setInterval(progressUpdate, 1000)
+      var loop = setInterval(progressUpdate, 1000)
       if (window.location.hash != '#d') setInterval(getNowPlaying,{{ updateFreq }}*1000)
-      addListenButton()
     </script>
     {% if debug %}<script src="/ws.js" type="text/javascript"></script>{% endif %}
   </body>

@@ -19,11 +19,11 @@ update-requirements: $(VENVBIN)
 	$(VENVBIN)/pip freeze > requirements.txt
 
 $(VENVBIN): requirements.txt
-	python3 -m venv .venv
+	python -m venv .venv
 	$(VENVBIN)/pip install -Ur requirements.txt
 
 run: $(VENVBIN)
-	python3 main.py
+	python main.py
 
 prod: $(VENVBIN)
 	gunicorn --bind 0.0.0.0:8000 main:app
