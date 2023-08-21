@@ -7,11 +7,13 @@
 
 works well with ashuffle and consume mode
 
+![screenshot](https://raw.githubusercontent.com/rystaf/nanojuke/main/scrnsht.png?raw=true)
+
 ## config
 
 ./config.ini or /etc/nanojuke.ini
 
-```
+```ini
 [nanojuke]
 mpdhost=127.0.0.1
 mpdport=6600
@@ -26,7 +28,17 @@ albumartFilename=Folder.jpg
 musicdir=/music
 ```
 
-# local development
+## docker
+
+```bash
+docker run -it \
+  -v $(pwd)/config.ini:/app/config.ini \
+  -v /my/music/directory:/music \
+  -p 8000:8000 \
+  ghcr.io/rystaf/nanojuke:latest
+```
+
+## local development
 
 uses websocketd and watchexec to autorefresh page after changes are made
 
