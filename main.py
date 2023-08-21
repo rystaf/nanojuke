@@ -86,17 +86,17 @@ def alphaChr(a):
 
 
 @app.template_filter("firstlist")
-def firstlist(l):
+def firstlist(ltr):
     return [
         alphaOrd(firstLtr(firstEl(x["albumartist"])))
-        for x in l
+        for x in ltr
         if "albumartist" in x and x["albumartist"]
     ]
 
 
 @app.template_filter("first")
-def first(l):
-    return alphaChr(firstLtr(l))
+def first(ltr):
+    return alphaChr(firstLtr(ltr))
 
 
 @app.route("/")
@@ -132,7 +132,7 @@ def nowplaying():
                 cli.moveid(songid, int(status["song"]) + 1)
         elif submit == "Add selected songs":
             for n, file in enumerate(request.form.getlist("s"), start=0):
-                if not local and (len(playlist[int(status["song"]) :]) + n) > 40:
+                if not local and (len(playlist[int(status["song"]):]) + n) > 40:
                     break
                 if next((s for s in playlist if s["file"] == file), None):
                     continue
@@ -230,11 +230,12 @@ def art(artist, album):
     return serve_pil_image(image.resize((100, 100)))
 
 
-if __name__ == "__main__":
+@app.route("/<path:name>")
+def serve_file(name):
+    return send_from_directory("public", name)
 
-    @app.route("/<path:name>")
-    def serve_file(name):
-        return send_from_directory("public", name)
+
+if __name__ == "__main__":
 
     @app.route("/debug")
     def getjson():
@@ -242,7 +243,7 @@ if __name__ == "__main__":
             cli.ping()
         except (ProtocolError):
             cli.close()
-            cli.connect(mpdhost, mpdpor)
+            cli.connect(mpdhost, mpdport)
         except (ConnectionError):
             print("reconnecting")
             cli.connect(mpdhost, mpdport)
