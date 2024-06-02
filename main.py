@@ -18,6 +18,7 @@ import time
 from os import path
 from io import BytesIO
 from PIL import Image
+from urllib.request import Request, urlopen, urlretrieve
 import re
 
 app = Flask(__name__)
@@ -39,6 +40,27 @@ updateFreq = cfg.get("updateFreq", 10)  # seconds
 cli.connect(mpdhost, mpdport)
 
 
+def checkIce(url):
+    req = Request(url)
+    req.add_header('Icy-MetaData', 1)
+    response = urlopen(req)
+    icy_metaint_header = response.headers.get('icy-metaint')
+
+    regex = r"StreamUrl='(.*?)';"
+    reg = re.compile(regex)
+
+    if icy_metaint_header is not None:
+        metaint = int(icy_metaint_header)
+        read_buffer = metaint+255
+        content = response.read(read_buffer)
+        header = content[metaint:].decode('utf-8', errors='ignore')
+        match = next(re.finditer(regex, header, re.MULTILINE), [])
+        if match:
+            return match.group(1)
+    return ""
+
+
+
 @app.template_filter("timef")
 def datef(s):
     return time.strftime("%M:%S", time.gmtime(s))
@@ -46,8 +68,11 @@ def datef(s):
 
 @app.template_filter("artwork")
 def artwork(s):
-    if "file" not in s or "//" in s["file"]:
+    if "file" not in s:
         return ""
+    if "//" in s["file"]:
+        return "/art/" + s["file"]
+        #return checkIce(s["file"])
     return "/art/" + "/".join(s["file"].split("/")[:2]) + ".jpg"
 
 
@@ -228,6 +253,16 @@ def art(artist, album):
         )
     image = Image.open(p)
     return serve_pil_image(image.resize((100, 100)))
+
+@app.route("/art/<path:subpath>")
+def streamart(subpath):
+    r = urlopen(checkIce(subpath))
+    if r.getcode() != 200:
+        return send_file(
+            path.join(path.dirname(__file__), "public", "albumartmissing.png")
+        )
+    return Response(r.read(), headers={'Content-Type': r.info()['Content-Type']})
+    #return checkIce(subpath)
 
 
 @app.route("/<path:name>")
