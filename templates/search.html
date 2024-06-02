@@ -26,11 +26,13 @@
     {% if results %}
     <form action="/nowplaying" method="POST">
       <div id="addmenu" class="center">
-        <input type="submit" name="submit" value="Add selected songs">
+        <input type="submit" name="submit" value="Add">
+        <input type="submit" name="submit" value="Play">
         <div id="alpha">
           {# if results|firstlist contains hash #}
           {% for x in range(26) %}
           {% if (65+x) in results|firstlist %}<a href="#{{(65+x)|chr}}" >{{(65+x)|chr}}</a>{%else%}<span>{{(65+x)|chr}}</span>{% endif %}{% endfor %}</div>
+        <hr style="margin:0;" />
       </div>
       <div id="results">
         {% include 'results.html' %}

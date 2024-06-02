@@ -155,8 +155,23 @@ def nowplaying():
         if submit == "T":
             if song:
                 cli.moveid(songid, int(status["song"]) + 1)
-        elif submit == "Add selected songs":
+        if submit == "P":
+            if song:
+                cli.moveid(songid, int(status["song"]) + 1)
+                cli.next()
+        if submit == "Play":
             for n, file in enumerate(request.form.getlist("s"), start=0):
+                # dont add if already in list
+                if not local and (len(playlist[int(status["song"]):]) + n) > 40:
+                    break
+                if next((s for s in playlist if s["file"] == file), None):
+                    continue
+                cli.addid(file, int(status["nextsong"])+n)
+            cli.next()
+            return redirect("/#c", code=302)
+        elif submit == "Add":
+            for n, file in enumerate(request.form.getlist("s"), start=0):
+                # dont add if already in list
                 if not local and (len(playlist[int(status["song"]):]) + n) > 40:
                     break
                 if next((s for s in playlist if s["file"] == file), None):
@@ -168,7 +183,7 @@ def nowplaying():
                 return Response(status=401)
             cli.next()
             time.sleep(1)
-        if request.headers.get("Sec-Fetch-Dest") == "Document":
+        if request.headers.get("Sec-Fetch-Mode", "").casefold() != "cors".casefold():
             return redirect("/", code=302)
     status = cli.status()
     playlist = cli.playlistid()
@@ -194,6 +209,19 @@ def nowplaying():
         local=local,
     )
 
+@app.route("/playlist/")
+@app.route("/playlist/<name>")
+def playlist(name=None):
+    template = "playlists.html"
+    results = []
+    lists = []
+    if name:
+        results = cli.listplaylistinfo(name)
+    else:
+        lists = cli.listplaylists()
+    if request.headers.get("Sec-Fetch-Mode", "").casefold() == "cors".casefold():
+        template = "playlist.html"
+    return render_template(template, songs=results, lists=lists, name=name)
 
 @app.route("/search")
 @app.route("/results")

@@ -3,7 +3,6 @@ html {
   height: 100%;
 }
 body {
-  margin: 0;
   height: 100%;
 }
 .container {
@@ -15,6 +14,9 @@ body {
 }
 #search {
   margin: 20px 0px;
+}
+#search form {
+  display: inline-block;
 }
 #listen {
   margin: 5px;
@@ -54,16 +56,17 @@ img {
 }
 
 #queue .artwork, #queue img {
-  height: 50px !important;
+  height: 70px !important;
   min-width: 50px;
   box-shadow: unset !important;
 }
 #queue .artwork {
-  margin: 2px 5px 2px 2px;
+  margin: 0px 8px 0px 0px;
   float: left;
 }
 li {
-  padding: 2px;
+  padding: 0px;
+  margin: 4px 0px;
 }
 #time {
   position: relative;
@@ -135,7 +138,10 @@ ol {
   color:white;
 }
 #results{
-  padding-top: 115px;
+  padding-top: 120px;
+}
+#playlists{
+  padding-top: 90px;
 }
 #results .albumtitle{
   cursor: pointer;
@@ -169,11 +175,11 @@ ol {
   user-select: none;
   -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); 
 }
-.songs div:nth-child(even) {
-  background-color: #e9e9ed;
-}
 .songs div span:hover {
   text-decoration: underline;
+}
+.playlist.songs div {
+  margin-left: 10px;
 }
 @media screen and (min-width:500px) {
   #results .album {
@@ -186,7 +192,7 @@ ol {
 #searchmenu {
   position: fixed;
   top: 0px;
-  padding:10px;
+  padding:10px 0px 0px 0px;
   left: 0px;
   right: 0px;
   background-color: white;
@@ -225,11 +231,14 @@ ol {
 #addmenu {
   position: fixed;
   top: 0px;
-  padding:5px 0px;
+  padding:5px 0px 0px 0px;
   top: 48px;
   left: 0;
   right: 0;
   background-color: white;
+}
+#playlistmenu hr {
+  margin-bottom: 0;
 }
 #alpha {
   margin: 0px auto;
@@ -246,18 +255,21 @@ ol {
 }
 
 @media(prefers-color-scheme:dark){
-  body, #searchmenu, #addmenu { background:#212529 !important; color:#fff; }
+  body, #searchmenu, #playlistmenu, #addmenu { background:#212529 !important; color:#fff; }
   .selected {
     background-color: #0060df !important;
     color:white;
   }
-  #queue li:nth-child(even), #progress, .songs div:nth-child(even) {
+  #queue li:nth-child(even), #progress {
     background: #363e44;
   }
   a { color:#3395ff; }
   dl { background:#292f33; }
   small { color: #ced4da; }
   #queue .contents {
+    background-color: inherit;
+  }
+  #queue li:nth-child(2n+1) {
     background-color: #20272e;
   }
 }
