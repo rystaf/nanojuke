@@ -33,6 +33,7 @@ mpdhost = cfg.get("mpdhost", "127.0.0.1")
 mpdport = cfg.get("mpdport", 6600)
 musicdir = cfg.get("musicdir")
 streamURL = cfg.get("streamURL")
+snapcastURL = cfg.get("snapcastURL")
 pageTitle = cfg.get("pageTitle", "nanojuke")
 albumartFilename = cfg.get("albumartFilename", "Folder.jpg")
 updateFreq = cfg.get("updateFreq", 10)  # seconds
@@ -209,6 +210,7 @@ def nowplaying():
         updateFreq=updateFreq,
         pageTitle=pageTitle,
         streamURL=streamURL,
+        snapcastURL=snapcastURL,
         local=local,
     )
 
@@ -259,7 +261,7 @@ def search():
             )
         except (ProtocolError):
             results = []
-        return render_template(template, results=results)
+        return render_template(template, results=results, local=local)
     results = []
     filters = []
     if artist:

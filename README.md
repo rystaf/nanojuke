@@ -23,6 +23,9 @@ pageTitle=nanojuke
 # if set, audio player will be shown at top of page
 # streamURL=127.0.0.1:8000
 
+# if set, volume link will be shown
+# snapcastURL=127.0.0.1:1780
+
 # albumart served from /music/artist/album/Folder.jpg
 albumartFilename=Folder.jpg
 musicdir=/music
