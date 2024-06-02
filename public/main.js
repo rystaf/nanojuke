@@ -53,6 +53,14 @@ function artistClick(e) {
   return false;
 }
 
+function playlistClick(e) {
+  e.preventDefault();
+  request(e.target.getAttribute('href')+"?xhr=1",null, function(res) {
+    e.target.parentNode.innerHTML = res;
+  })
+  return false;
+}
+
 function albumClick(e) {
   e.currentTarget.checked = !e.currentTarget.checked
   var tracks = e.currentTarget.parentNode.getElementsByTagName('input')
