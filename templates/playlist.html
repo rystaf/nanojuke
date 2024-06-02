@@ -1,0 +1,19 @@
+<div class="playlist songs">
+<a
+  href="{{name|urlencode}}"
+  onclick="playlistClick(event)"
+  >{{name}}</a>
+{% for song in songs %}
+  <div>
+    <label>
+      <div>
+        <input
+          name="s"
+          type="checkbox"
+          value="{{song.file}}">
+        {{ loop.index }}. <span>{{ song.title if 'title' in song else song.file }}{% if song.artist %} - {{ song.artist }}{% endif %}</span>
+      </div>
+    </label>
+  </div>
+{% endfor %}
+</div>
