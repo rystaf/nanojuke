@@ -12,7 +12,8 @@
       {% if streamURL %}<div class="center" id="listen"><a href="{{ streamURL }}" target="_blank">Listen</a></div>
       {% endif %}{% include 'nowplaying.html' %}
       <div id="search" class="center">
-        <form action="/search" onsubmit="popup(event); return false;" ><input type="submit" value="Search"></form>
+        <form action="/search" onsubmit="popup(event); return false;" ><input type="submit" value="Library"></form>
+        <form action="/playlist/" onsubmit="popup(event); return false;" ><input type="submit" value="Playlists"></form>
       </div>
     </div>
     <script type="text/javascript">

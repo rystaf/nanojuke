@@ -42,7 +42,8 @@
                   <input type="hidden" name="songid" value="{{song.id}}">{% if (song.pos|int) != (status.song|int) + 1 %}
                   <input type="submit" name="submit" value="T" title="Move to top">
                   <input type="submit" name="submit" value="^" title="Move up">{% endif%}
-                  {% if local %}<input type="submit" name="submit" value="X" title="Remove">{% endif %}
+                  {% if local %}<input type="submit" name="submit" value="P" title="Play now">
+                  <input type="submit" name="submit" value="X" title="Remove">{% endif %}
                 </form>
               </div>
             </li>{% endfor %}{% endif %}
